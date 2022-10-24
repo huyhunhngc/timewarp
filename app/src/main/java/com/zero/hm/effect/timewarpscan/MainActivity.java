@@ -275,24 +275,18 @@ public class MainActivity extends AppCompatActivity implements Listener, EasyPer
 
     @Override
     public void startAnimation() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-//                if (isAppInitDone())
-//                    animateLineSeparator();
-            }
+        runOnUiThread(() -> {
+            if (isAppInitDone())
+                animateLineSeparator();
         });
     }
 
     @Override
     public void imageSavedSuccessfully(final String filePath) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                stopProjection();
-                showAllActions();
-                Toast.makeText(MainActivity.this, "File saved successfully in " + filePath, Toast.LENGTH_LONG).show();
-            }
+        runOnUiThread(() -> {
+            stopProjection();
+            showAllActions();
+            Toast.makeText(MainActivity.this, "File saved successfully in " + filePath, Toast.LENGTH_LONG).show();
         });
     }
 
@@ -350,8 +344,6 @@ public class MainActivity extends AppCompatActivity implements Listener, EasyPer
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
-
-
 }
 
 enum speed {

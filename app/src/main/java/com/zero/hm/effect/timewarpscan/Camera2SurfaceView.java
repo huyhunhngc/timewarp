@@ -36,7 +36,6 @@ public class Camera2SurfaceView extends SurfaceView {
     private final GLVideoRenderer videoRenderer = new GLVideoRenderer();
     private final GLRenderer mRenderer = new GLRenderer();
     private final GLScanRenderer scanRenderer = new GLScanRenderer();
-    private final GLLineRenderer lineRenderer = new GLLineRenderer();
 
     private String mCameraId;
     private CameraManager mCameraManager;
@@ -146,7 +145,6 @@ public class Camera2SurfaceView extends SurfaceView {
                     mRenderer.initShader();
                     videoRenderer.initShader();
                     scanRenderer.initShader();
-                    lineRenderer.initShader();
                     videoRenderer.setOnFrameAvailableListener(surfaceTexture -> cameraHandler.post(() -> {
                         if (mCameraCaptureSession == null) {
                             return;
@@ -168,13 +166,6 @@ public class Camera2SurfaceView extends SurfaceView {
                                     scanHeight = 3.0f;
                                     fh = 1.0f;
                                 }
-                                Line vertLine = new Line();
-                                vertLine.SetVerts(-0.5f, 0.5f, 0f, -0.5f, -0.5f, 0f);
-                                vertLine.SetColor(.8f, .8f, 0f, 1.0f);
-                                vertLine.draw();
-                                lineRenderer.setVertices(-10f, 10f, 0f, 10f, 10f, 0f);
-                                lineRenderer.setColor(.8f, .8f, 0f, 1.0f);
-                                lineRenderer.drawFrame();
                                 scanRenderer.drawFrame(videoRenderer.getTexture(), fh, context, isNewScan);
                             } else if (scanHeight < 4.0f) {
                                 scanHeight = 5.0f;
@@ -227,7 +218,6 @@ public class Camera2SurfaceView extends SurfaceView {
                     rect.right = left + viewWidth;
                     rect.bottom = top + viewHeight;
                     videoRenderer.setSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-                    lineRenderer.setSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
                     scanRenderer.setSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
                     if (sw == -1) {
                         openCamera2();
