@@ -15,6 +15,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.AttributeSet;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Camera2SurfaceView extends SurfaceView {
+public class Camera2SurfaceView extends GLSurfaceView {
 
     private final EGLUtils mEglUtils = new EGLUtils();
     private final GLVideoRenderer videoRenderer = new GLVideoRenderer();
@@ -133,7 +134,7 @@ public class Camera2SurfaceView extends SurfaceView {
         cameraThread.start();
         cameraHandler = new Handler(cameraThread.getLooper());
         activeCamera = getActiveCamera(context);
-
+        setRenderer(mRenderer);
         initCamera2();
         getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override

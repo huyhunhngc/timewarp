@@ -1,19 +1,27 @@
 package com.zero.hm.effect.timewarpscan;
 
 import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class GLRenderer {
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+public class GLRenderer implements GLSurfaceView.Renderer {
     private int programId = -1;
     private int aPositionHandle;
     private int uTextureSamplerHandle;
     private int aTextureCoordHandle;
+    private int mSurfaceWidth, mSurfaceHeight;
+    private int mIncomingWidth, mIncomingHeight;
+    private final float[] mSTMatrix = new float[16];
 
-    private int[] bos = new int[2];
-    private int[] textures = new int[1];
+    private final int[] bos = new int[2];
+    private final int[] textures = new int[1];
 
     public void initShader() {
         String fragmentShader = "varying highp vec2 vTexCoord;\n" +
@@ -105,5 +113,25 @@ public class GLRenderer {
         GLES20.glDeleteProgram(programId);
         GLES20.glDeleteTextures(textures.length, textures, 0);
         GLES20.glDeleteBuffers(bos.length, bos, 0);
+    }
+
+    @Override
+    public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+        Matrix.setIdentityM(mSTMatrix, 0);
+    }
+
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
+
+        if (gl != null) {
+            gl.glViewport(0, 0, width, height);
+        }
+    }
+
+    @Override
+    public void onDrawFrame(GL10 gl10) {
+
     }
 }
